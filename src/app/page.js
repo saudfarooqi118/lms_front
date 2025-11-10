@@ -22,7 +22,16 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      const text = await res.text(); // 👈 read raw text
+      console.log("Raw response:", text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Server did not return valid JSON");
+      }
+
       if (!res.ok) throw new Error(data.error || "Login failed");
 
       const role = data.user.role;
@@ -30,9 +39,11 @@ export default function LoginPage() {
       else if (role === "librarian") router.push("/librarian");
       else router.push("/customer");
     } catch (err) {
+      console.error("Login error:", err);
       setError(err.message);
     }
   }
+
 
   return (
     <div className="page page-center">

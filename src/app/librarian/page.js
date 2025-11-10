@@ -64,7 +64,7 @@ export default function LibrarianDashboard() {
 
   async function fetchIssuedBooks() {
     try {
-      const res = await fetch('http://localhost:5000/api/books/fetchissued', {
+      const res = await fetch('https://lms-back-rendor.onrender.com/api/books/fetchissued', {
         method: 'GET',
         credentials: 'include',
       });
@@ -79,7 +79,7 @@ export default function LibrarianDashboard() {
   async function handleAddBook(e) {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/books', {
+      const res = await fetch('https://lms-back-rendor.onrender.com/api/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -118,7 +118,7 @@ export default function LibrarianDashboard() {
   async function handleIssueBook(e) {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/books/issue', {
+      const res = await fetch('https://lms-back-rendor.onrender.com/api/books/issue', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -156,7 +156,7 @@ export default function LibrarianDashboard() {
   }
 
   function handleLogout() {
-    fetch('http://localhost:5000/auth/logout', { method: 'POST', credentials: 'include' })
+    fetch('https://lms-back-rendor.onrender.com/auth/logout', { method: 'POST', credentials: 'include' })
       .then(() => (window.location.href = '/'))
       .catch(() => setError('Logout failed'));
   }

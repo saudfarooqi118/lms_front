@@ -29,18 +29,36 @@ export default function LibrarianDashboard() {
   // ✅ Fetch books
   async function fetchBooks(page = 1) {
     try {
-      const res = await fetch(`${baseUrl}/api/books?page=${page}&limit=${booksPerPage}`, {
-        credentials: 'include',
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to load books');
+      const res = await fetch(
+        `${baseUrl}/api/books?page=${page}&limit=${booksPerPage}`,
+        {
+          credentials: "include",
+        }
+      );
+
+      // 👇 Read raw response for debugging (helps when server returns HTML instead of JSON)
+      const text = await res.text();
+      console.log("Raw books response:", text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Server did not return valid JSON (books)");
+      }
+
+      if (!res.ok) throw new Error(data.error || "Failed to load books");
+
+      // ✅ Set state normally if all good
       setBooks(data.books);
       setCurrentPage(data.currentPage);
       setTotalPages(data.totalPages);
     } catch (err) {
+      console.error("Fetch books error:", err);
       setError(err.message);
     }
   }
+
 
   useEffect(() => {
     fetchBooks();
@@ -52,7 +70,7 @@ export default function LibrarianDashboard() {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch('http://localhost:5000/api/books', {
+      const res = await fetch('https://lms-back-rendor.onrender.com/api/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -111,7 +129,7 @@ export default function LibrarianDashboard() {
     setLoading(true);
     setMessage('');
     try {
-      const res = await fetch('http://localhost:5000/users/add', {
+      const res = await fetch('https://lms-back-rendor.onrender.com/users/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userForm),

@@ -14,7 +14,7 @@ export default function CustomerPage() {
   // ✅ Fetch current user
   const fetchUser = async () => {
     try {
-      const res = await fetch('http://localhost:5000/auth/me', {
+      const res = await fetch('https://lms-back-rendor.onrender.com/auth/me', {
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Please log in first.');
@@ -79,7 +79,7 @@ export default function CustomerPage() {
 
   // ✅ Logout
   function handleLogout() {
-    fetch('http://localhost:5000/auth/logout', {
+    fetch('https://lms-back-rendor.onrender.com/auth/logout', {
       method: 'POST',
       credentials: 'include',
     })
